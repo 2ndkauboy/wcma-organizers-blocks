@@ -1,0 +1,76 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "wcma/organizers-list-js",
+  "version": "1.0.0",
+  "title": "Organizers List JS",
+  "category": "widgets",
+  "icon": "groups",
+  "description": "Display a list of the organizers.",
+  "example": {},
+  "supports": {
+    "html": false,
+    "color": {
+      "heading": true,
+      "link": true
+    }
+  },
+  "attributes": {
+    "showAvatar": {
+      "type": "boolean",
+      "default": true
+    },
+    "avatarSize": {
+      "type": "integer",
+      "default": 128,
+      "enum": [
+        48,
+        96,
+        128,
+        192
+      ]
+    },
+    "showName": {
+      "type": "boolean",
+      "default": true
+    },
+    "nameType": {
+      "type": "string",
+      "default": "display_name",
+      "enum": [
+        "display_name",
+        "first_name",
+        "nickname"
+      ]
+    },
+    "showBio": {
+      "type": "boolean",
+      "default": true
+    },
+    "showLink": {
+      "type": "boolean",
+      "default": true
+    },
+    "linkText": {
+      "type": "string",
+      "default": ""
+    },
+    "displayType": {
+      "type": "string",
+      "default": "list",
+      "enum": [
+        "list",
+        "grid"
+      ]
+    },
+    "gridColumns": {
+      "type": "integer",
+      "default": 3
+    }
+  },
+  "textdomain": "wcma-organizers-block-js",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

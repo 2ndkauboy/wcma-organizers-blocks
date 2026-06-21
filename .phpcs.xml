@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ruleset name="WCMA Organizers Block">
+    <description>WordPress Coding Standards for wcma-organizers-block plugins</description>
+
+    <file>wcma-organizers-block-js/src/render.php</file>
+    <file>wcma-organizers-block-js/wcma-organizers-block-js.php</file>
+    <file>wcma-organizers-block-mixed/block/render.php</file>
+    <file>wcma-organizers-block-mixed/wcma-organizers-block-mixed.php</file>
+    <file>wcma-organizers-block-php-only/wcma-organizers-block-php-only.php</file>
+
+    <rule ref="WordPress"/>
+
+    <!-- Text domain for i18n checks -->
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="wcma-organizers-block-js"/>
+                <element value="wcma-organizers-block-mixed"/>
+                <element value="wcma-organizers-block-php-only"/>
+            </property>
+        </properties>
+    </rule>
+</ruleset>

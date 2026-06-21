@@ -1,0 +1,70 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"preferredVersions": {
+		"php": "8.2",
+		"wp": "latest"
+	},
+	"landingPage": "/organizers/",
+	"steps": [
+		{
+			"step": "login"
+		},
+		{
+			"step": "setSiteOptions",
+			"options": {
+				"permalink_structure": "/%postname%/"
+			}
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php\nrequire '/wordpress/wp-load.php';\n$tmp_zip  = '/tmp/wcma-blocks.zip';\n$tmp_dir  = '/tmp/wcma-blocks/';\nfile_put_contents( $tmp_zip, file_get_contents( 'https://github.com/2ndkauboy/wcma-organizers-blocks/archive/refs/heads/develop.zip' ) );\n$zip = new ZipArchive();\n$zip->open( $tmp_zip );\n$zip->extractTo( $tmp_dir );\n$zip->close();\n$dirs = glob( $tmp_dir . 'wcma-organizers-blocks-*/', GLOB_ONLYDIR );\n$src  = $dirs[0];\nforeach ( [ 'wcma-organizers-block-js', 'wcma-organizers-block-mixed', 'wcma-organizers-block-php-only' ] as $plugin ) {\n\trename( $src . $plugin, WP_PLUGIN_DIR . '/' . $plugin );\n}\n"
+		},
+		{
+			"step": "wp-cli",
+			"command": "wp plugin activate wcma-organizers-block-js wcma-organizers-block-mixed wcma-organizers-block-php-only"
+		},
+		{
+			"step": "wp-cli",
+			"command": "wp user create lena-wagner lena.wagner@example.com --role=author --display_name='Lena Wagner' --first_name=Lena --last_name=Wagner --user_pass=password"
+		},
+		{
+			"step": "wp-cli",
+			"command": "wp user create thomas-mueller thomas.mueller@example.com --role=author --display_name='Thomas Müller' --first_name=Thomas --last_name=Müller --user_pass=password"
+		},
+		{
+			"step": "wp-cli",
+			"command": "wp user create petra-schmidt petra.schmidt@example.com --role=author --display_name='Petra Schmidt' --first_name=Petra --last_name=Schmidt --user_pass=password"
+		},
+		{
+			"step": "wp-cli",
+			"command": "wp user create jan-becker jan.becker@example.com --role=author --display_name='Jan Becker' --first_name=Jan --last_name=Becker --user_pass=password"
+		},
+		{
+			"step": "wp-cli",
+			"command": "wp user create anna-hoffmann anna.hoffmann@example.com --role=author --display_name='Anna Hoffmann' --first_name=Anna --last_name=Hoffmann --user_pass=password"
+		},
+		{
+			"step": "wp-cli",
+			"command": "wp user create markus-bauer markus.bauer@example.com --role=author --display_name='Markus Bauer' --first_name=Markus --last_name=Bauer --user_pass=password"
+		},
+		{
+			"step": "setSiteOptions",
+			"options": {
+				"avatar_default": "initials"
+			}
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php\nrequire '/wordpress/wp-load.php';\n$organizers = [\n\t'lena-wagner'    => 'Lena ist leidenschaftliche WordPress-Entwicklerin und Community-Managerin. Sie engagiert sich seit 2018 in der WordCamp-Szene und bringt Projekte mit Herzblut voran.',\n\t'thomas-mueller' => 'Thomas arbeitet als Full-Stack-Entwickler und hat jahrelange Erfahrung mit WordPress-Projekten für mittelständische Unternehmen im Rhein-Neckar-Raum.',\n\t'petra-schmidt'  => 'Petra ist UX-Designerin mit Schwerpunkt auf barrierefreien Web-Erlebnissen. Sie liebt es, komplexe Probleme durch elegantes Design zu lösen.',\n\t'jan-becker'     => 'Jan ist freiberuflicher WordPress-Consultant und hilft Unternehmen dabei, das Beste aus ihrer WordPress-Installation herauszuholen.',\n\t'anna-hoffmann'  => 'Anna ist Spezialistin für Content-Strategie und digitales Marketing. Bei WordCamp Mannheim kümmert sie sich um Sponsoren und Kommunikation.',\n\t'markus-bauer'   => 'Markus entwickelt WordPress-Plugins und -Themes und teilt sein Wissen als Speaker und Workshopleiter auf WordCamps und Meetups.',\n];\nforeach ( $organizers as $login => $bio ) {\n\t$user = get_user_by( 'login', $login );\n\tif ( $user ) {\n\t\twp_update_user( [ 'ID' => $user->ID, 'description' => $bio ] );\n\t\twp_insert_post( [\n\t\t\t'post_title'   => 'Post by ' . $user->display_name,\n\t\t\t'post_status'  => 'publish',\n\t\t\t'post_author'  => $user->ID,\n\t\t\t'post_content' => '',\n\t\t] );\n\t}\n}\n"
+		},
+		{
+			"step": "writeFile",
+			"path": "/tmp/organizers-page.html",
+			"data": "<!-- wp:columns {\"align\":\"full\",\"style\":{\"spacing\":{\"padding\":{\"right\":\"var:preset|spacing|30\",\"left\":\"var:preset|spacing|30\"}}}} -->\n<div class=\"wp-block-columns alignfull\" style=\"padding-right:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)\"><!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">PHP-only Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:wcma/organizers-list-php-only /--></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">JavaScript Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:wcma/organizers-list-js /--></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Mixed Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:wcma/organizers-list-mixed /--></div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->"
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php\nrequire '/wordpress/wp-load.php';\n\n// Remove default admin content so admin is not shown in organizer blocks\n$default_posts = get_posts( [\n\t'author'      => 1,\n\t'post_status' => 'any',\n\t'post_type'   => [ 'post', 'page' ],\n\t'numberposts' => -1,\n] );\nforeach ( $default_posts as $post ) {\n\twp_delete_post( $post->ID, true );\n}\n\n// Create organizers page and set it as the static front page\n$page_id = wp_insert_post( [\n\t'post_type'    => 'page',\n\t'post_title'   => 'Organizers',\n\t'post_content' => file_get_contents( '/tmp/organizers-page.html' ),\n\t'post_status'  => 'publish',\n] );\nupdate_option( 'show_on_front', 'page' );\nupdate_option( 'page_on_front', $page_id );\n"
+		}
+	]
+}

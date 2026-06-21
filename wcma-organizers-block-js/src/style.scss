@@ -1,0 +1,55 @@
+.wp-block-wcma-organizers-list-js {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.wp-block-wcma-organizers-list-js__avatar img {
+	display: block;
+}
+
+.wp-block-wcma-organizers-list-js__name {
+	margin: 0;
+}
+
+.wp-block-wcma-organizers-list-js__bio {
+	font-size: 0.8em;
+	margin: 0.25rem 0 0;
+}
+
+.wp-block-wcma-organizers-list-js__link {
+	display: block;
+	font-size: 0.8em;
+	margin-top: 0.25rem;
+}
+
+.wp-block-wcma-organizers-list-js.is-display-grid {
+	display: grid;
+	gap: 1rem;
+
+	.wp-block-wcma-organizers-list-js__item {
+		background-color: #e0e0e0;
+		border: 1px solid #bdbdbd;
+		border-radius: 4px;
+		padding: 1rem;
+	}
+}
+
+.wp-block-wcma-organizers-list-js.is-display-list {
+
+	.wp-block-wcma-organizers-list-js__item:not(:last-child) {
+		border-bottom: 1px solid #ccc;
+		padding-bottom: 0.75rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.wp-block-wcma-organizers-list-js__item.has-avatar {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+
+		.wp-block-wcma-organizers-list-js__content {
+			flex: 1;
+		}
+	}
+}

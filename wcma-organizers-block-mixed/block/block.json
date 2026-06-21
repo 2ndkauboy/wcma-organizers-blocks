@@ -1,0 +1,84 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wcma/organizers-list-mixed",
+	"version": "1.0.0",
+	"title": "Organizers List Mixed",
+	"category": "widgets",
+	"icon": "groups",
+	"description": "Display a list of the organizers.",
+	"example": {},
+	"supports": {
+		"html": false,
+		"color": {
+			"heading": true,
+			"link": true
+		},
+		"autoRegister": true
+	},
+	"attributes": {
+		"showAvatar": {
+			"type": "boolean",
+			"label": "Show avatar",
+			"default": true
+		},
+		"avatarSize": {
+			"type": "integer",
+			"label": "Avatar size",
+			"default": 128,
+			"enum": [
+				48,
+				96,
+				128,
+				192
+			]
+		},
+		"showName": {
+			"type": "boolean",
+			"label": "Show name",
+			"default": true
+		},
+		"nameType": {
+			"type": "string",
+			"label": "Name type",
+			"default": "display_name",
+			"enum": [
+				"display_name",
+				"first_name",
+				"nickname"
+			]
+		},
+		"showBio": {
+			"type": "boolean",
+			"label": "Show bio",
+			"default": true
+		},
+		"showLink": {
+			"type": "boolean",
+			"label": "Show link to author archive",
+			"default": true
+		},
+		"linkText": {
+			"type": "string",
+			"label": "Link text prefix",
+			"default": ""
+		},
+		"displayType": {
+			"type": "string",
+			"label": "Display type",
+			"default": "list",
+			"enum": [
+				"list",
+				"grid"
+			]
+		},
+		"gridColumns": {
+			"type": "integer",
+			"label": "Grid columns",
+			"default": 3
+		}
+	},
+	"textdomain": "wcma-organizers-block-mixed",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}
